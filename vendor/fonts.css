@@ -7,11 +7,19 @@
 }
 
 @font-face {
-  font-family: "Playfair Display", serif;
-  font-style: normal;
-  font-weight: 700;
+  font-family: "Raleway", sans-serif;
+  font-style: italic;
+  font-weight: 500;
   font-display: swap;
-  src: url("./fonts/PlayfairDisplay-Bold.ttf") format("woff2");
+  src: url("./fonts/Raleway-SemiBoldItalic.ttf") format("woff2");
+}
+
+@font-face {
+  font-family: "Raleway", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url("./fonts/Raleway-Regular.ttf") format("woff2");
 }
 
 @font-face {
@@ -20,4 +28,12 @@
   font-weight: 400;
   font-display: swap;
   src: url("./fonts/Lato-Regular.ttf") format("woff2");
+}
+
+@font-face {
+  font-family: "Noto Serif JP", serif;
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url("./fonts/NotoSerifJP-SemiBold.otf") format("opentype");
 }

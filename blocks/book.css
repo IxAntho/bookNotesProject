@@ -2,6 +2,7 @@
   /* display: flex;
   flex-direction: column;
   gap: 20px; */
+  margin-bottom: 35px;
   &::after {
     content: "";
     clear: both;
@@ -10,8 +11,8 @@
 }
 
 .book__book-cover {
-  width: 150px;
-  max-height: 225px;
+  width: 125px;
+  max-height: 200px;
   float: left;
   margin-right: 20px;
   margin-bottom: 10px;
@@ -19,9 +20,9 @@
 
 .book__book-title {
   margin: 0;
-  font-family: "Playfair Display", serif;
+  font-family: "Noto Serif JP", serif;
   font-size: clamp(24px, 5vw, 34px);
-  font-weight: 700;
+  font-weight: 500;
   line-height: 1.2;
 }
 
@@ -31,4 +32,18 @@
   font-weight: 400;
   font-style: italic;
   color: #666;
+}
+
+.book__overview {
+  font-family: "Lato", sans-serif;
+  font-size: clamp(14px, 5vw, 18px);
+  font-weight: 400;
+  line-height: 1.2;
+}
+
+.book__links {
+  font-family: "Lato", sans-serif;
+  font-size: clamp(14px, 5vw, 18px);
+  font-weight: 400;
+  line-height: 1.2;
 }
