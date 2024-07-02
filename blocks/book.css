@@ -1,0 +1,34 @@
+.book {
+  /* display: flex;
+  flex-direction: column;
+  gap: 20px; */
+  &::after {
+    content: "";
+    clear: both;
+    display: table;
+  }
+}
+
+.book__book-cover {
+  width: 150px;
+  max-height: 225px;
+  float: left;
+  margin-right: 20px;
+  margin-bottom: 10px;
+}
+
+.book__book-title {
+  margin: 0;
+  font-family: "Playfair Display", serif;
+  font-size: clamp(24px, 5vw, 34px);
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.book__meta-info {
+  font-family: "Playfair Display", serif;
+  font-size: clamp(16px, 5vw, 18px);
+  font-weight: 400;
+  font-style: italic;
+  color: #666;
+}
