@@ -26,6 +26,14 @@
   line-height: 1.2;
 }
 
+.book__book-link {
+  color: #0a0b17;
+
+  &:visited {
+    color: #6f4370;
+  }
+}
+
 .book__meta-info {
   font-family: "Playfair Display", serif;
   font-size: clamp(16px, 5vw, 18px);
