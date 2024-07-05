@@ -1,0 +1,75 @@
+<%- include("partials/header.ejs") %>
+<section class="addbook">
+  <h1 class="addbook__title">Add a New Book</h1>
+  <form class="addbook__form" action="/add-book" method="POST">
+    <div class="addbook__form-group">
+      <label class="addbook__label" for="name">Book Title</label>
+      <input
+        class="addbook__input"
+        type="text"
+        id="name"
+        name="name"
+        required
+      />
+    </div>
+
+    <div class="addbook__form-group">
+      <label class="addbook__label" for="dateRead">Date Read</label>
+      <input
+        class="addbook__input"
+        type="date"
+        id="dateRead"
+        name="dateRead"
+        required
+      />
+    </div>
+
+    <div class="addbook__form-group">
+      <label class="addbook__label" for="recommendation"
+        >How strongly do you recommend it?</label
+      >
+      <select
+        class="addbook__select"
+        id="recommendation"
+        name="recommendation"
+        required
+      >
+        <option value="1">1 - Not recommended</option>
+        <option value="2">2 - It was okay</option>
+        <option value="3">3 - Good</option>
+        <option value="4">4 - Very good</option>
+        <option value="5">5 - Highly recommended</option>
+      </select>
+    </div>
+
+    <div class="addbook__form-group">
+      <label class="addbook__label" for="isbn">ISBN (optional)</label>
+      <input class="addbook__input" type="text" id="isbn" name="isbn" />
+    </div>
+
+    <div class="addbook__form-group">
+      <label class="addbook__label" for="summary">Book Review</label>
+      <textarea
+        class="addbook__textarea"
+        id="summary"
+        name="summary"
+        rows="4"
+        required
+      ></textarea>
+    </div>
+
+    <div class="addbook__form-group">
+      <label class="addbook__label" for="amazonLink">Amazon Link</label>
+      <input
+        class="addbook__input"
+        type="url"
+        id="amazonLink"
+        name="amazonLink"
+        required
+      />
+    </div>
+
+    <button type="submit" class="addbook__submit">Add Book</button>
+  </form>
+</section>
+<%- include("partials/footer.ejs") %>

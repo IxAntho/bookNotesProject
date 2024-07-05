@@ -1,1 +1,3 @@
 vendor/normalize.css
+views/partials/header.html
+views/partials/footer.html

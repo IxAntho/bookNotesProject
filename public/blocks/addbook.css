@@ -1,0 +1,57 @@
+.addbook {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.addbook__title {
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.addbook__form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.addbook__form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.addbook__label {
+  margin-bottom: 5px;
+  font-size: 14px;
+  color: #555;
+}
+
+.addbook__input,
+.addbook__select,
+.addbook__textarea {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+.addbook__textarea {
+  resize: vertical;
+}
+
+.addbook__submit {
+  background-color: #3498db;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.addbook__submit:hover {
+  background-color: #2980b9;
+}
