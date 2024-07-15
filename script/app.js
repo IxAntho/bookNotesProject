@@ -53,7 +53,9 @@ app.get("/notes", async (req, res) => {
   await res.render("bookview.ejs");
 });
 
-app.post("/notes", async (req, res) => {});
+app.post("/notes", async (req, res) => {
+  const newNote = req.body.app;
+});
 
 app.listen(port, () => {
   console.log(`Server Running on http://localhost:${port}`);

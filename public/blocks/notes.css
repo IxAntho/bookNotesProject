@@ -122,7 +122,7 @@
   transition: background-color 0.3s ease;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
   text-align: center;
-  max-height: 25px;
+  max-height: min-content;
   margin-top: 1rem;
   display: inline-block;
   transition: border-radius 0.35s ease-in-out,
