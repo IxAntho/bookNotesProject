@@ -30,12 +30,26 @@
 <section class="notes">
   <div class="notes__heading">
     <h2 class="notes__title">My Notes</h2>
-    <a href="#" class="notes__bttn">Add Note</a>
   </div>
   <ul class="notes__list">
     <li class="notes__list-item">
       <p class="notes__note">Hello World!</p>
     </li>
   </ul>
+  <div class="notes__form-container">
+    <form class="notes__form" action="/bookview" method="POST">
+      <div class="notes__form-group">
+        <label class="notes__form-label" for="summary">New Note</label>
+        <textarea
+          class="notes__form-textarea"
+          id="summary"
+          name="summary"
+          rows="4"
+          required
+        ></textarea>
+      </div>
+    </form>
+    <a href="#" class="notes__form-bttn">Add Note</a>
+  </div>
 </section>
 <%- include("partials/footer.ejs") %>
