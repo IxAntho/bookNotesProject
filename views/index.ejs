@@ -1,7 +1,8 @@
 <%- include("partials/header.ejs") %>
 <hr class="divisor" />
 <section class="allbooks" id="allbooks">
-  <a href="#" class="allbooks__add-bttn">Add Book</a>
+  <a href="/addbook" class="allbooks__add-bttn">Add Book</a>
+  <!-- For loop -->
   <div class="book">
     <img
       src="../public/images/bookTemplate.png"
@@ -10,7 +11,7 @@
     />
 
     <h1 class="book__book-title">
-      <a href="#" class="book__book-link">
+      <a href="/notes" class="book__book-link">
         You Can Negotiate Anything - by Herb Cohen
       </a>
     </h1>
@@ -29,9 +30,7 @@
       the first half is so crucial.
     </p>
     <p class="book__links">
-      <a href="#" class="book__book-link">Read my notes</a>, or go to the
-      <a href="#" class="book__book-link">Amazon page</a> for details and
-      reviews.
+      <a href="/notes" class="book__book-link">Add notes</a> about this book.
     </p>
   </div>
 </section>

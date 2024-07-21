@@ -1,5 +1,6 @@
 import express from "express";
 import bodyParser from "body-parser";
+import axios from "axios";
 import pg from "pg";
 import dotenv from "dotenv";
 import path from "path";
@@ -42,6 +43,18 @@ app.use((req, res, next) => {
 
 app.get("/", async (req, res) => {
   await res.render("index.ejs");
+});
+
+app.get("/addbook", async (req, res) => {
+  await res.render("addbook.ejs");
+});
+
+app.get("/notes", async (req, res) => {
+  await res.render("bookview.ejs");
+});
+
+app.post("/notes", async (req, res) => {
+  const newNote = req.body.app;
 });
 
 app.listen(port, () => {
