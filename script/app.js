@@ -1,8 +1,7 @@
 import express from "express";
 import bodyParser from "body-parser";
 import axios from "axios";
-import pg from "pg";
-import dotenv from "dotenv";
+
 import path from "path";
 import { fileURLToPath } from "url";
 
@@ -10,19 +9,8 @@ import { fileURLToPath } from "url";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// dotenv.config();
-// const password = process.env.PASSWORD;
-
 const app = express();
 const port = 3000;
-
-// const db = new pg.Client({
-//   user: "postgres",
-//   host: "localhost",
-//   database: "U-postgres",
-//   password: `${password}`,
-//   port: 5432,
-// });
 
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -57,17 +45,23 @@ app.post("/notes", async (req, res) => {
   const newNote = req.body.app;
 });
 
+// app.post("/editNote/:id", (req, res) => {
+//   const noteId = req.params.id;
+//   const newContent = req.body.content;
+//   // Update the note in your database
+//   // ...
+
+//   res.json({ success: true });
+// });
+
+// app.post("/deleteNote/:id", (req, res) => {
+//   const noteId = req.params.id;
+//   // Delete the note from your database
+//   // ...
+
+//   res.json({ success: true });
+// });
+
 app.listen(port, () => {
   console.log(`Server Running on http://localhost:${port}`);
 });
-
-// // Close the database connection when the process is exiting
-// process.on("exit", () => {
-//   db.end();
-// });
-
-// // Close the database connection when the server is stopping
-// process.on("SIGINT", () => {
-//   db.end();
-//   process.exit();
-// });
