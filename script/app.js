@@ -1,9 +1,9 @@
 import express from "express";
 import bodyParser from "body-parser";
 import axios from "axios";
-
 import path from "path";
 import { fileURLToPath } from "url";
+import * as db from "./db.js";
 
 // Get the current file path and directory path
 const __filename = fileURLToPath(import.meta.url);
@@ -30,7 +30,15 @@ app.use((req, res, next) => {
 });
 
 app.get("/", async (req, res) => {
-  await res.render("index.ejs");
+  try {
+    const books = await db.getAllBooks();
+    console.log(books);
+
+    res.render("index.ejs");
+  } catch (error) {
+    console.error("Error fetching books:", error);
+    res.status(500).send("Error fetching books");
+  }
 });
 
 app.get("/addbook", async (req, res) => {
