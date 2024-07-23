@@ -3,6 +3,7 @@
 <section class="allbooks" id="allbooks">
   <a href="/addbook" class="allbooks__add-bttn">Add Book</a>
   <!-- For loop -->
+  <% books.forEach((book) => {%>
   <div class="book">
     <img
       src="../public/images/bookTemplate.png"
@@ -11,27 +12,24 @@
     />
 
     <h1 class="book__book-title">
-      <a href="/notes" class="book__book-link">
-        You Can Negotiate Anything - by Herb Cohen
+      <a href="/bookview/<%= book.id %>" class="book__book-link">
+        <%= book.title %> - by <%= book.author %>
       </a>
     </h1>
     <p class="book__meta-info">
-      Date read: 2023-08-02. How strongly I recommend it: 10/10
+      Date read: <%= new Date(book.date_read).toLocaleDateString('en-US', {
+      weekday: 'short', year: 'numeric', month: 'short', day: '2-digit'
+      }).replace(/,/g, '').replace(/(\d+)$/, ',$1') %>. How strongly I recommend
+      it: <%= book.rating %>
     </p>
-    <p class="book__overview">
-      Everything is negotiable. Challenge authority. You have the power in any
-      situation. This is how to realize it and use it. A must-read classic from
-      1980 from a master negotiator. My notes here aren't enough because the
-      little book is filled with so many memorable stories — examples of great
-      day-to-day moments of negotiation that will stick in your head for when
-      you need them. (I especially loved the one about the power of the prisoner
-      in solitary confinement.) So go buy and read the book. I'm giving it a
-      10/10 rating even though the second half of the book loses steam, because
-      the first half is so crucial.
-    </p>
+    <p class="book__overview"><%= book.review %></p>
     <p class="book__links">
-      <a href="/notes" class="book__book-link">Add notes</a> about this book.
+      <a href="/bookview/<%= book.id %>" class="book__book-link">Add notes</a>
+      about this book or go to the
+      <a href="<%= book.amazon_link %>" class="book__book-link">Amazon page</a>
+      for details and reviews.
     </p>
   </div>
+  <% }); %>
 </section>
 <%- include("partials/footer.ejs") %>

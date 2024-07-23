@@ -34,7 +34,7 @@ app.get("/", async (req, res) => {
     const books = await db.getAllBooks();
     console.log(books);
 
-    res.render("index.ejs");
+    res.render("index.ejs", { books: books });
   } catch (error) {
     console.error("Error fetching books:", error);
     res.status(500).send("Error fetching books");
@@ -45,8 +45,15 @@ app.get("/addbook", async (req, res) => {
   await res.render("addbook.ejs");
 });
 
-app.get("/notes", async (req, res) => {
-  await res.render("bookview.ejs");
+app.get("/bookview/:id", async (req, res) => {
+  try {
+    const bookId = req.params.id;
+    const book = await db.getBook(bookId);
+    const notes = await db.getNotes(bookId);
+    res.render("bookview.ejs", { book: book, notes: notes });
+  } catch (error) {
+    console.log("error: ", error);
+  }
 });
 
 app.post("/notes", async (req, res) => {

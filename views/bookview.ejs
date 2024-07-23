@@ -5,42 +5,46 @@
   alt="You Can Negotiate Anything book cover"
 />
 
-<h2 class="book__book-title">You Can Negotiate Anything - by Herb Cohen</h2>
+<h2 class="book__book-title"><%= book.title %> - by <%= book.author %>></h2>
 
-<p class="book__meta-info">ISBN: 0806541229</p>
-<p class="book__meta-info">Date read: 2023-08-02</p>
-<p class="book__meta-info">How strongly I recommend it: 10/10</p>
-
-<p class="book__overview">
-  Go to the <a href="#" class="book__links">Amazon page</a> for details and
-  reviews.
-</p>
+<p class="book__meta-info">ISBN: <%= book.isbn %></p>
+<p class="book__meta-info">Date read: <%= book.date_read %></p>
+<p class="book__meta-info">How strongly I recommend it: <%= book.rating %></p>
 
 <p class="book__overview">
-  Everything is negotiable. Challenge authority. You have the power in any
-  situation. This is how to realize it and use it. A must-read classic from 1980
-  from a master negotiator. My notes here aren't enough because the little book
-  is filled with so many memorable stories — examples of great day-to-day
-  moments of negotiation that will stick in your head for when you need them. (I
-  especially loved the one about the power of the prisoner in solitary
-  confinement.) So go buy and read the book. I'm giving it a 10/10 rating even
-  though the second half of the book loses steam, because the first half is so
-  crucial.
+  Go to the
+  <a href="<%= book.amazon_link %>" class="book__links">Amazon page</a> for
+  details and reviews.
 </p>
+
+<p class="book__overview"><%= book.review %></p>
 <section class="notes">
   <div class="notes__heading">
     <h2 class="notes__title">My Notes</h2>
   </div>
   <ul class="notes__list">
-    <!-- For Loop -->
+    <% notes.forEach((note) =>{ %>
     <li class="notes__list-item">
-      <p class="notes__note">Hello World!</p>
+      <p class="notes__note"><%= note.note %></p>
       <form class="notes__edit-form" style="display: none">
         <textarea class="notes__edit-textarea"></textarea>
-        <button type="button" class="notes__edit-btn">Edit</button>
-        <button type="button" class="notes__delete-btn">Delete</button>
+        <button
+          type="button"
+          class="notes__edit-btn"
+          data-note-id="<%= note.id %>"
+        >
+          Edit
+        </button>
+        <button
+          type="button"
+          class="notes__delete-btn"
+          data-note-id="<%= note.id %>"
+        >
+          Delete
+        </button>
       </form>
     </li>
+    <% }); %>
   </ul>
   <div class="notes__form-container">
     <form class="notes__form" action="/bookview" method="POST">

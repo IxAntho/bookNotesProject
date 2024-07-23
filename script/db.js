@@ -12,10 +12,24 @@ const db = new pg.Client({
   port: process.env.DB_PORT,
 });
 
-export async function getAllBooks() {
+db.connect();
+
+export const getAllBooks = async () => {
   const result = await db.query("SELECT * FROM books ORDER BY title");
   return result.rows;
-}
+};
+
+export const getBook = async (id) => {
+  const result = await db.query(`SELECT * FROM books WHERE books.id = ${id}`);
+  return result.rows[0];
+};
+
+export const getNotes = async (bookId) => {
+  const result = await db.query(
+    `SELECT * FROM notes WHERE book_id = ${bookId}`
+  );
+  return result.rows;
+};
 
 // Close the database connection when the process is exiting
 process.on("exit", () => {
