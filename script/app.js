@@ -60,22 +60,20 @@ app.post("/notes", async (req, res) => {
   const newNote = req.body.app;
 });
 
-// app.post("/editNote/:id", (req, res) => {
-//   const noteId = req.params.id;
-//   const newContent = req.body.content;
-//   // Update the note in your database
-//   // ...
+app.post("/editNote/:id", (req, res) => {
+  const noteId = req.params.id;
+  const newNote = req.body.content;
+  db.updateNote(noteId, newNote);
+  res.redirect();
+});
 
-//   res.json({ success: true });
-// });
+app.post("/deleteNote/:id", (req, res) => {
+  const noteId = req.params.id;
+  // Delete the note from your database
+  // ...
 
-// app.post("/deleteNote/:id", (req, res) => {
-//   const noteId = req.params.id;
-//   // Delete the note from your database
-//   // ...
-
-//   res.json({ success: true });
-// });
+  res.json({ success: true });
+});
 
 app.listen(port, () => {
   console.log(`Server Running on http://localhost:${port}`);

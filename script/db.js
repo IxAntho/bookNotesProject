@@ -15,20 +15,59 @@ const db = new pg.Client({
 db.connect();
 
 export const getAllBooks = async () => {
-  const result = await db.query("SELECT * FROM books ORDER BY title");
-  return result.rows;
+  try {
+    const query = "SELECT * FROM books ORDER BY id ASC";
+    const result = await db.query(query);
+    return result.rows;
+  } catch (error) {
+    console.error("Error in getAllBooks:", error);
+    throw new Error("Failed to fetch books");
+  }
 };
 
 export const getBook = async (id) => {
-  const result = await db.query(`SELECT * FROM books WHERE books.id = ${id}`);
-  return result.rows[0];
+  try {
+    const query = "SELECT * FROM books WHERE id = $1";
+    const result = await db.query(query, [id]);
+    if (result.rows.length === 0) {
+      throw new Error("Book not found");
+    }
+    return result.rows[0];
+  } catch (error) {
+    console.error(`Error in getBook for id ${id}:`, error);
+    throw error;
+  }
 };
 
 export const getNotes = async (bookId) => {
-  const result = await db.query(
-    `SELECT * FROM notes WHERE book_id = ${bookId}`
-  );
-  return result.rows;
+  try {
+    const query = "SELECT * FROM notes WHERE book_id = $1";
+    const result = await db.query(query, [bookId]);
+    return result.rows;
+  } catch (error) {
+    console.error(`Error in getNotes for bookId ${bookId}:`, error);
+    throw new Error("Failed to fetch notes");
+  }
+};
+
+export const updateNote = async (noteId, newNote) => {
+  try {
+    const query = "UPDATE notes SET note = $1 WHERE id = $2";
+    await db.query(query, [newNote, noteId]);
+  } catch (error) {
+    console.error(`Error in updateNote for noteId ${noteId}:`, error);
+    throw new Error("Failed to update note");
+  }
+};
+
+export const deleteNote = async (noteId) => {
+  try {
+    const query = "DELETE FROM notes WHERE id = $1";
+    await db.query(query, [noteId]);
+  } catch (error) {
+    console.error(`Error deleting note for noteId ${noteId}`, error);
+    throw new Error("Failed to delete note");
+  }
 };
 
 // Close the database connection when the process is exiting
