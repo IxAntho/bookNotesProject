@@ -14,6 +14,7 @@ const port = 3000;
 
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json());
 
 // Set up the correct path for static files
 const publicPath = path.join(__dirname, "..", "public");
@@ -41,8 +42,8 @@ app.get("/", async (req, res) => {
   }
 });
 
-app.get("/addbook", async (req, res) => {
-  await res.render("addbook.ejs");
+app.get("/addbook", (req, res) => {
+  res.render("addbook.ejs");
 });
 
 app.get("/bookview/:id", async (req, res) => {
@@ -50,29 +51,50 @@ app.get("/bookview/:id", async (req, res) => {
     const bookId = req.params.id;
     const book = await db.getBook(bookId);
     const notes = await db.getNotes(bookId);
-    res.render("bookview.ejs", { book: book, notes: notes });
+    res.render("bookview.ejs", { book, notes });
   } catch (error) {
-    console.log("error: ", error);
+    console.error(
+      `Error fetching book details for id ${req.params.id}:`,
+      error
+    );
+    res.status(404).render("error.ejs", { message: "Book not found" });
   }
 });
 
-app.post("/notes", async (req, res) => {
-  const newNote = req.body.app;
+app.post("/newNote", async (req, res) => {
+  try {
+    const newNote = req.body.note;
+    const bookId = req.body.bookId;
+    await db.addNote(newNote, bookId);
+    res.redirect(`/bookview/${bookId}#notes`);
+  } catch (error) {
+    console.error("Error adding new note:", error);
+    res.status(500).json({ success: false, message: "Failed to add note" });
+  }
 });
 
-app.post("/editNote/:id", (req, res) => {
-  const noteId = req.params.id;
-  const newNote = req.body.content;
-  db.updateNote(noteId, newNote);
-  res.redirect();
+app.post("/editNote/:id", async (req, res) => {
+  try {
+    const noteId = req.params.id;
+    const newNote = req.body.content;
+    console.log(newNote);
+    await db.updateNote(noteId, newNote);
+    res.json({ success: true });
+  } catch (error) {
+    console.error(`Error updating note for id: ${noteId}`, error);
+    res.status(500).json({ success: false, message: "Failed to update note" });
+  }
 });
 
-app.post("/deleteNote/:id", (req, res) => {
-  const noteId = req.params.id;
-  // Delete the note from your database
-  // ...
-
-  res.json({ success: true });
+app.post("/deleteNote/:id", async (req, res) => {
+  try {
+    const noteId = req.params.id;
+    await db.deleteNote(noteId);
+    res.json({ success: true });
+  } catch (error) {
+    console.error(`Error deliting note for id: ${noteId}`, error);
+    res.status(500).json({ success: false, message: "Failed to delete note" });
+  }
 });
 
 app.listen(port, () => {

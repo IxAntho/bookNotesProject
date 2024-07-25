@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", () => {
       form.style.display = "block";
 
       // Populate the textarea with the current note text
-      textarea.value = note.textContent;
+      textarea.value = note.textContent.trim();
       // Focus on the textarea for immediate editing
       textarea.focus();
     }
@@ -42,8 +42,14 @@ document.addEventListener("DOMContentLoaded", () => {
     const noteId = e.target.dataset.noteId;
     const newContent = textarea.value;
 
+    if (newContent.trim() === "") {
+      alert("Note cannot be empty");
+      return;
+    }
+
     updateNote(noteId, newContent).then((success) => {
       if (success) {
+        note.textContent = newContent;
         updateUI(note, form);
       }
     });
@@ -53,7 +59,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const noteId = e.target.dataset.noteId;
     deleteNote(noteId).then((success) => {
       if (success) {
-        removeNoteFromUI(e.target.closest(".notes__list-item"));
+        window.location.reload();
       }
     });
   }
@@ -73,6 +79,7 @@ document.addEventListener("DOMContentLoaded", () => {
           return true;
         } else {
           console.error("Failed to update note");
+          alert(data.message);
           return false;
         }
       })
@@ -93,6 +100,7 @@ document.addEventListener("DOMContentLoaded", () => {
           return true;
         } else {
           console.error("Failed to delete note");
+          alert(data.message);
           return false;
         }
       })
@@ -105,9 +113,5 @@ document.addEventListener("DOMContentLoaded", () => {
   function updateUI(note, form) {
     note.style.display = "block";
     form.style.display = "none";
-  }
-
-  function removeNoteFromUI(listItem) {
-    listItem.remove();
   }
 });

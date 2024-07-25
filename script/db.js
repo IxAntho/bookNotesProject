@@ -50,6 +50,16 @@ export const getNotes = async (bookId) => {
   }
 };
 
+export const addNote = async (newNote, bookId) => {
+  try {
+    const query = "INSERT INTO notes (note, book_id) VALUES ($1, $2)";
+    await db.query(query, [newNote, bookId]);
+  } catch (error) {
+    console.error("Error trying to add a new note", error);
+    throw new Error("Failed to add notes");
+  }
+};
+
 export const updateNote = async (noteId, newNote) => {
   try {
     const query = "UPDATE notes SET note = $1 WHERE id = $2";
