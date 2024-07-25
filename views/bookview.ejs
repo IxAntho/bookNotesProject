@@ -8,13 +8,19 @@
 <h2 class="book__book-title"><%= book.title %> - by <%= book.author %>></h2>
 
 <p class="book__meta-info">ISBN: <%= book.isbn %></p>
-<p class="book__meta-info">Date read: <%= book.date_read %></p>
+<p class="book__meta-info">
+  Date read: <%= new Date(book.date_read).toLocaleDateString('en-US', { weekday:
+  'short', year: 'numeric', month: 'short', day: '2-digit' }).replace(/,/g,
+  '').replace(/(\d+)$/, ',$1') %>
+</p>
 <p class="book__meta-info">How strongly I recommend it: <%= book.rating %></p>
 
 <p class="book__overview">
   Go to the
-  <a href="<%= book.amazon_link %>" class="book__links">Amazon page</a> for
-  details and reviews.
+  <a href="<%= book.amazon_link %>" class="book__links" target="_blank"
+    >Amazon page</a
+  >
+  for details and reviews.
 </p>
 
 <p class="book__overview"><%= book.review %></p>

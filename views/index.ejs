@@ -20,7 +20,7 @@
       Date read: <%= new Date(book.date_read).toLocaleDateString('en-US', {
       weekday: 'short', year: 'numeric', month: 'short', day: '2-digit'
       }).replace(/,/g, '').replace(/(\d+)$/, ',$1') %>. How strongly I recommend
-      it: <%= book.rating %>
+      it: <%= book.rating %>/5
     </p>
     <p class="book__overview"><%= book.review %></p>
     <p class="book__links">

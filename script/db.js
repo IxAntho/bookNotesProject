@@ -39,6 +39,33 @@ export const getBook = async (id) => {
   }
 };
 
+export const addBook = async (
+  title,
+  author,
+  dateRead,
+  rating,
+  isbn = 123456789,
+  bookReview,
+  aLink = "#"
+) => {
+  try {
+    const query =
+      "INSERT INTO books (title, author, date_read, rating, ISBN, review, amazon_link) VALUES ($1, $2, $3, $4, $5, $6, $7)";
+    await db.query(query, [
+      title,
+      author,
+      dateRead,
+      rating,
+      isbn,
+      bookReview,
+      aLink,
+    ]);
+  } catch (error) {
+    console.error("Error trying to add a new book", error);
+    throw new Error("Failed to add book");
+  }
+};
+
 export const getNotes = async (bookId) => {
   try {
     const query = "SELECT * FROM notes WHERE book_id = $1";
