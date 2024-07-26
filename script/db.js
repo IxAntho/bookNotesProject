@@ -46,11 +46,12 @@ export const addBook = async (
   rating,
   isbn = 123456789,
   bookReview,
-  aLink = "#"
+  aLink = "#",
+  img
 ) => {
   try {
     const query =
-      "INSERT INTO books (title, author, date_read, rating, ISBN, review, amazon_link) VALUES ($1, $2, $3, $4, $5, $6, $7)";
+      "INSERT INTO books (title, author, date_read, rating, ISBN, review, amazon_link, img) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)";
     await db.query(query, [
       title,
       author,
@@ -59,6 +60,7 @@ export const addBook = async (
       isbn,
       bookReview,
       aLink,
+      img,
     ]);
   } catch (error) {
     console.error("Error trying to add a new book", error);

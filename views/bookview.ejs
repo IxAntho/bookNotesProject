@@ -1,11 +1,14 @@
-<%- include("partials/header.ejs") %>
+<%- include("partials/header.ejs") %> <% if (book.img) { %>
+<img src="<%= book.img %>" alt="book cover" class="book__book-cover" />
+<% } else {%>
 <img
+  src="../public/images/bookCoverUnknown.png"
+  alt="book cover"
   class="book__book-cover"
-  src="https://covers.openlibrary.org/b/isbn/0806541229-L.jpg"
-  alt="You Can Negotiate Anything book cover"
 />
+<% } %>
 
-<h2 class="book__book-title"><%= book.title %> - by <%= book.author %>></h2>
+<h2 class="book__book-title"><%= book.title %> - by <%= book.author %></h2>
 
 <p class="book__meta-info">ISBN: <%= book.isbn %></p>
 <p class="book__meta-info">

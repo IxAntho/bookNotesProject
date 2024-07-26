@@ -1,3 +1,5 @@
+document.getElementById("copyrightYear").innerHTML = new Date().getFullYear();
+
 // Edit and Delete notes logic
 document.addEventListener("DOMContentLoaded", () => {
   // Get the main container for all notes

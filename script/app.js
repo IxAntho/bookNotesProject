@@ -1,6 +1,5 @@
 import express from "express";
 import bodyParser from "body-parser";
-import axios from "axios";
 import path from "path";
 import { fileURLToPath } from "url";
 import * as db from "./db.js";
@@ -63,6 +62,7 @@ app
       const aLink = req.body.amazonLink;
       // add a new column to books called img, to add there the link for the book covers api
       // Also check if ths isbn is null to display a general cover for books without an isbn
+      const img = `https://covers.openlibrary.org/b/isbn/${isbn}-S.jpg?default=false`;
       await db.addBook(
         title,
         author,
@@ -70,7 +70,8 @@ app
         rating,
         isbn,
         bookReview,
-        aLink
+        aLink,
+        img
       );
       res.redirect("/");
     } catch (error) {
