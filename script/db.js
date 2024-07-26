@@ -39,17 +39,17 @@ export const getBook = async (id) => {
   }
 };
 
-export const addBook = async (
-  title,
-  author,
-  dateRead,
-  rating,
-  isbn = 123456789,
-  bookReview,
-  aLink = "#",
-  img
-) => {
+export const addBook = async (book, img) => {
   try {
+    const {
+      title,
+      author,
+      dateRead,
+      rating,
+      isbn = "123456789",
+      bookReview,
+      aLink = "#",
+    } = book;
     const query =
       "INSERT INTO books (title, author, date_read, rating, ISBN, review, amazon_link, img) VALUES ($1, $2, $3, $4, $5, $6, $7, $8)";
     await db.query(query, [
@@ -65,6 +65,76 @@ export const addBook = async (
   } catch (error) {
     console.error("Error trying to add a new book", error);
     throw new Error("Failed to add book");
+  }
+};
+
+export const updateBook = async (bookId, updatedBook) => {
+  try {
+    const { title, author, dateRead, rating, isbn, bookReview, aLink } =
+      updatedBook;
+
+    let query = "UPDATE books SET ";
+    const updateFields = [];
+    const values = [];
+    let paramCounter = 1;
+
+    if (title !== undefined) {
+      updateFields.push(`title = $${paramCounter}`);
+      values.push(title);
+      paramCounter++;
+    }
+    if (author !== undefined) {
+      updateFields.push(`author = $${paramCounter}`);
+      values.push(author);
+      paramCounter++;
+    }
+    if (dateRead !== undefined) {
+      updateFields.push(`date_read = $${paramCounter}`);
+      values.push(dateRead);
+      paramCounter++;
+    }
+    if (rating !== undefined) {
+      updateFields.push(`rating = $${paramCounter}`);
+      values.push(rating);
+      paramCounter++;
+    }
+    if (isbn !== undefined) {
+      updateFields.push(`isbn = $${paramCounter}`);
+      values.push(isbn);
+      paramCounter++;
+    }
+    if (bookReview !== undefined) {
+      updateFields.push(`review = $${paramCounter}`);
+      values.push(bookReview);
+      paramCounter++;
+    }
+    if (aLink !== undefined) {
+      updateFields.push(`amazon_link = $${paramCounter}`);
+      values.push(aLink);
+      paramCounter++;
+    }
+
+    if (updateFields.length === 0) {
+      return; // No fields to update
+    }
+
+    query += updateFields.join(", ");
+    query += ` WHERE id = $${bookId}`;
+
+    await db.query(query, values);
+  } catch (error) {
+    console.error(`Error updating book with id ${bookId}:`, error);
+    throw new Error("Failed to update book");
+  }
+};
+
+export const deleteBook = (bookId) => {
+  try {
+    const query = "DELETE FROM books WHERE id = $1";
+    db.query(query, [bookId]);
+  } catch (error) {
+    console.error(`Error deleting book for noteId ${bookId}`, error);
+    throw new Error("Failed to delete book");
   }
 };
 

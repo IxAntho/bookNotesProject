@@ -116,4 +116,57 @@ document.addEventListener("DOMContentLoaded", () => {
     note.style.display = "block";
     form.style.display = "none";
   }
+
+  // Event listener for book edit and delete actions
+  const bookButtons = document.querySelector(".book__bttns");
+
+  bookButtons.addEventListener("click", (e) => {
+    if (e.target.classList.contains("book__edit-bttn")) {
+      updateBook(e);
+    } else if (e.target.classList.contains("book__delete-bttn")) {
+      deleteBook(e);
+    }
+  });
+
+  function updateNote(e) {
+    const bookId = e.target.dataset.bookId;
+    return fetch(`/editBook/${bookId}`, {
+      method: "GET",
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.success) {
+          return true;
+        } else {
+          alert(data.message);
+          return false;
+        }
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        return false;
+      });
+  }
+
+  function deleteNote(e) {
+    const bookId = e.target.dataset.bookId;
+    return fetch(`/deleteBook/${bookId}`, {
+      method: "POST",
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.success) {
+          console.log("Book deleted successfully");
+          return true;
+        } else {
+          console.error("Failed to delete Book");
+          alert(data.message);
+          return false;
+        }
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        return false;
+      });
+  }
 });

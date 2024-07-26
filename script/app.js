@@ -45,7 +45,7 @@ app
   .route("/addbook")
   .get((req, res) => {
     try {
-      res.render("addbook.ejs");
+      res.render("addbook.ejs", { book: null });
     } catch (error) {
       console.error("Failed to render tempalte", error);
       res.status(404).send("Error render template");
@@ -53,26 +53,18 @@ app
   })
   .post(async (req, res) => {
     try {
-      const title = req.body.name;
-      const author = req.body.author;
-      const dateRead = req.body.dateRead;
-      const rating = req.body.recommendation;
-      const isbn = req.body.isbn;
-      const bookReview = req.body.summary;
-      const aLink = req.body.amazonLink;
-      // add a new column to books called img, to add there the link for the book covers api
-      // Also check if ths isbn is null to display a general cover for books without an isbn
+      const book = {
+        title: req.body.name,
+        author: req.body.author,
+        dateRead: req.body.dateRead,
+        rating: req.body.recommendation,
+        isbn: `${req.body.isbn}`,
+        bookReview: req.body.summary,
+        aLink: req.body.amazonLink,
+      };
+
       const img = `https://covers.openlibrary.org/b/isbn/${isbn}-S.jpg?default=false`;
-      await db.addBook(
-        title,
-        author,
-        dateRead,
-        rating,
-        isbn,
-        bookReview,
-        aLink,
-        img
-      );
+      await db.addBook(book, img);
       res.redirect("/");
     } catch (error) {
       console.error("Error adding a new book: ", error);
@@ -97,6 +89,52 @@ app.get("/bookview/:id", async (req, res) => {
     res
       .status(404)
       .json({ success: false, message: "Failed to render template" })
+      .redirect("/");
+  }
+});
+
+app
+  .route("/editBook/:id")
+  .get(async (req, res) => {
+    try {
+      const bookId = req.params.id;
+      const book = await db.getBook(bookId);
+      res.render("addbook.ejs", { book: book });
+    } catch (error) {
+      console.error("Error fetching book for editing:", error);
+      res.status(500).send("Error fetching book for editing");
+    }
+  })
+  .post(async (req, res) => {
+    try {
+      const bookId = req.params.id;
+      const updatedBook = {
+        title: req.body.name,
+        author: req.body.author,
+        dateRead: req.body.dateRead,
+        rating: req.body.recommendation,
+        isbn: `${req.body.isbn}`,
+        bookReview: req.body.summary,
+        aLink: req.body.amazonLink,
+      };
+      await db.updateBook(bookId, updatedBook);
+      res.redirect(`/bookview/${bookId}`);
+    } catch (error) {
+      console.error("Error updating book:", error);
+      res.status(500).send("Error updating book");
+    }
+  });
+
+app.route("/deleteBook/:id", async (req, res) => {
+  try {
+    const bookId = req.params.id;
+    await db.deleteBook(bookId);
+    res.redirect("/");
+  } catch (error) {
+    console.error(`Error deliting book for id: ${noteId}`, error);
+    res
+      .status(500)
+      .json({ success: false, message: "Failed to delete book" })
       .redirect("/");
   }
 });
