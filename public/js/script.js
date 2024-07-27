@@ -1,4 +1,4 @@
-document.getElementById("copyrightYear").innerHTML = new Date().getFullYear();
+// document.getElementById("copyrightYear").innerHTML = new Date().getFullYear();
 
 // Edit and Delete notes logic
 document.addEventListener("DOMContentLoaded", () => {
@@ -116,57 +116,4 @@ document.addEventListener("DOMContentLoaded", () => {
     note.style.display = "block";
     form.style.display = "none";
   }
-
-  // // Event listener for book edit and delete actions
-  // document.body.addEventListener("click", (e) => {
-  //   if (e.target.classList.contains("book__edit-bttn")) {
-  //     console.log("click edit");
-  //     updateBook(e);
-  //   } else if (e.target.classList.contains("book__delete-bttn")) {
-  //     console.log("click delete");
-  //     deleteBook(e);
-  //   }
-  // });
-
-  // function updateBook(e) {
-  //   const bookId = e.target.dataset.bookId;
-  //   return fetch(`/editBook/${bookId}`, {
-  //     method: "GET",
-  //   })
-  //     .then((response) => response.json())
-  //     .then((data) => {
-  //       if (data.success) {
-  //         return true;
-  //       } else {
-  //         alert(data.message);
-  //         return false;
-  //       }
-  //     })
-  //     .catch((error) => {
-  //       console.error("Error:", error);
-  //       return false;
-  //     });
-  // }
-
-  // function deleteBook(e) {
-  //   const bookId = e.target.dataset.bookId;
-  //   return fetch(`/deleteBook/${bookId}`, {
-  //     method: "POST",
-  //   })
-  //     .then((response) => response.json())
-  //     .then((data) => {
-  //       if (data.success) {
-  //         console.log("Book deleted successfully");
-  //         return true;
-  //       } else {
-  //         console.error("Failed to delete Book");
-  //         alert(data.message);
-  //         return false;
-  //       }
-  //     })
-  //     .catch((error) => {
-  //       console.error("Error:", error);
-  //       return false;
-  //     });
-  // }
 });
