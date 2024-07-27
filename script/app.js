@@ -63,7 +63,7 @@ app
         aLink: req.body.amazonLink,
       };
 
-      const img = `https://covers.openlibrary.org/b/isbn/${isbn}-S.jpg?default=false`;
+      const img = `https://covers.openlibrary.org/b/isbn/${book.isbn}-S.jpg?default=false`;
       await db.addBook(book, img);
       res.redirect("/");
     } catch (error) {
