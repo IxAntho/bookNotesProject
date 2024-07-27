@@ -68,7 +68,7 @@
         name="summary"
         rows="4"
         required
-      ><%= book ? book.bookReview : '' %></textarea>
+      ><%= book ? book.review : '' %></textarea>
     </div>
     <div class="addbook__form-group">
       <label class="addbook__label" for="amazonLink">Amazon Link</label>
@@ -77,7 +77,7 @@
         type="url"
         id="amazonLink"
         name="amazonLink"
-        value="<%= book ? book.aLink : '' %>"
+        value="<%= book ? book.amazon_link : '' %>"
       />
     </div>
     <button type="submit" class="addbook__submit"><%= book ? 'Update Book' : 'Add Book' %></button>

@@ -68,63 +68,119 @@ export const addBook = async (book, img) => {
   }
 };
 
-export const updateBook = async (bookId, updatedBook) => {
+// export const updateBook = async (bookId, updatedBook, img) => {
+//   try {
+//     const { title, author, dateRead, rating, isbn, bookReview, aLink } =
+//       updatedBook;
+
+//     let query = "UPDATE books SET ";
+//     const updateFields = [];
+//     const values = [];
+//     let paramCounter = 1;
+
+//     if (title !== undefined) {
+//       updateFields.push(`title = $${paramCounter}`);
+//       values.push(title);
+//       paramCounter++;
+//     }
+//     if (author !== undefined) {
+//       updateFields.push(`author = $${paramCounter}`);
+//       values.push(author);
+//       paramCounter++;
+//     }
+//     if (dateRead !== undefined) {
+//       updateFields.push(`date_read = $${paramCounter}`);
+//       values.push(dateRead);
+//       paramCounter++;
+//     }
+//     if (rating !== undefined) {
+//       updateFields.push(`rating = $${paramCounter}`);
+//       values.push(rating);
+//       paramCounter++;
+//     }
+//     if (isbn !== undefined) {
+//       updateFields.push(`isbn = $${paramCounter}`);
+//       values.push(isbn);
+//       paramCounter++;
+//     }
+//     if (bookReview !== undefined) {
+//       updateFields.push(`review = $${paramCounter}`);
+//       values.push(bookReview);
+//       paramCounter++;
+//     }
+//     if (aLink !== undefined) {
+//       updateFields.push(`amazon_link = $${paramCounter}`);
+//       values.push(aLink);
+//       paramCounter++;
+//     }
+
+//     if (img !== undefined) {
+//       updateFields.push(`img = $${paramCounter}`);
+//       values.push(img);
+//       paramCounter++;
+//     }
+
+//     if (updateFields.length === 0) {
+//       return; // No fields to update
+//     }
+
+//     query += updateFields.join(", ");
+//     console.log(query);
+//     query += ` WHERE id = $${bookId}`;
+//     console.log(query);
+
+//     await db.query(query, values);
+//   } catch (error) {
+//     console.error(`Error updating book with id ${bookId}:`, error);
+//     throw new Error("Failed to update book");
+//   }
+// };
+
+export const updateBook = async (bookId, updatedBook, img) => {
   try {
     const { title, author, dateRead, rating, isbn, bookReview, aLink } =
       updatedBook;
 
-    let query = "UPDATE books SET ";
     const updateFields = [];
     const values = [];
     let paramCounter = 1;
 
-    if (title !== undefined) {
-      updateFields.push(`title = $${paramCounter}`);
-      values.push(title);
-      paramCounter++;
-    }
-    if (author !== undefined) {
-      updateFields.push(`author = $${paramCounter}`);
-      values.push(author);
-      paramCounter++;
-    }
-    if (dateRead !== undefined) {
-      updateFields.push(`date_read = $${paramCounter}`);
-      values.push(dateRead);
-      paramCounter++;
-    }
-    if (rating !== undefined) {
-      updateFields.push(`rating = $${paramCounter}`);
-      values.push(rating);
-      paramCounter++;
-    }
-    if (isbn !== undefined) {
-      updateFields.push(`isbn = $${paramCounter}`);
-      values.push(isbn);
-      paramCounter++;
-    }
-    if (bookReview !== undefined) {
-      updateFields.push(`review = $${paramCounter}`);
-      values.push(bookReview);
-      paramCounter++;
-    }
-    if (aLink !== undefined) {
-      updateFields.push(`amazon_link = $${paramCounter}`);
-      values.push(aLink);
-      paramCounter++;
-    }
+    const addField = (field, value, transform = (v) => v) => {
+      if (value !== undefined && value !== null && value !== "") {
+        updateFields.push(`${field} = $${paramCounter++}`);
+        values.push(transform(value));
+      }
+    };
+
+    addField("title", title);
+    addField("author", author);
+    addField("date_read", dateRead, (date) => new Date(date).toISOString());
+    addField("rating", rating, (r) => parseInt(r, 10));
+    addField("isbn", isbn);
+    addField("review", bookReview);
+    addField("amazon_link", aLink);
+    addField("img", img);
 
     if (updateFields.length === 0) {
+      console.log("No fields to update");
       return; // No fields to update
     }
 
-    query += updateFields.join(", ");
-    query += ` WHERE id = $${bookId}`;
+    const query = `UPDATE books SET ${updateFields.join(
+      ", "
+    )} WHERE id = $${paramCounter}`;
+    values.push(bookId);
 
-    await db.query(query, values);
+    const result = await db.query(query, values);
+
+    if (result.rowCount === 0) {
+      throw new Error(`No book found with id ${bookId}`);
+    }
+
+    console.log(`Successfully updated book with id ${bookId}`);
   } catch (error) {
     console.error(`Error updating book with id ${bookId}:`, error);
-    throw new Error("Failed to update book");
+    throw new Error(`Failed to update book: ${error.message}`);
   }
 };
 

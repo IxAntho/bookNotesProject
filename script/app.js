@@ -108,24 +108,50 @@ app
   .post(async (req, res) => {
     try {
       const bookId = req.params.id;
-      const updatedBook = {
-        title: req.body.name,
-        author: req.body.author,
-        dateRead: req.body.dateRead,
-        rating: req.body.recommendation,
-        isbn: `${req.body.isbn}`,
-        bookReview: req.body.summary,
-        aLink: req.body.amazonLink,
-      };
-      await db.updateBook(bookId, updatedBook);
+
+      // First, fetch the existing book data
+      const existingBook = await db.getBook(bookId);
+
+      if (!existingBook) {
+        throw new Error("Book not found");
+      }
+
+      const updatedBook = {};
+
+      // Compare each field and only add to updatedBook if changed
+      if (req.body.name !== existingBook.title)
+        updatedBook.title = req.body.name;
+      if (req.body.author !== existingBook.author)
+        updatedBook.author = req.body.author;
+      if (req.body.dateRead !== existingBook.date_read)
+        updatedBook.dateRead = req.body.dateRead;
+      if (req.body.recommendation !== existingBook.rating.toString())
+        updatedBook.rating = req.body.recommendation;
+      if (req.body.isbn !== existingBook.isbn) updatedBook.isbn = req.body.isbn;
+      if (req.body.summary !== existingBook.review)
+        updatedBook.bookReview = req.body.summary;
+      if (req.body.amazonLink !== existingBook.amazon_link)
+        updatedBook.aLink = req.body.amazonLink;
+
+      // Only update the image if ISBN has changed
+      let img;
+      if (req.body.isbn !== existingBook.isbn) {
+        img = `https://covers.openlibrary.org/b/isbn/${req.body.isbn}-S.jpg?default=false`;
+      }
+
+      // Only call updateBook if there are changes
+      if (Object.keys(updatedBook).length > 0 || img !== undefined) {
+        await db.updateBook(bookId, updatedBook, img);
+      }
+
       res.redirect(`/bookview/${bookId}`);
     } catch (error) {
       console.error("Error updating book:", error);
-      res.status(500).send("Error updating book");
+      res.status(500).send(`Error updating book: ${error.message}`);
     }
   });
 
-app.route("/deleteBook/:id", async (req, res) => {
+app.post("/deleteBook/:id", async (req, res) => {
   try {
     const bookId = req.params.id;
     await db.deleteBook(bookId);

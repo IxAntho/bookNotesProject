@@ -28,12 +28,16 @@
 
 <p class="book__overview"><%= book.review %></p>
 <div class="book__bttns">
-  <button type="button" class="book__edit-bttn" data-book-id="<%= book.id %>">
-    Edit
-  </button>
-  <button type="button" class="book__delete-bttn" data-book-id="<%= book.id %>">
-    Delete
-  </button>
+  <form action="/editBook/<%= book.id %>" method="GET" class="book__edit-form">
+    <button type="submit" class="book__edit-bttn">Edit</button>
+  </form>
+  <form
+    action="/deleteBook/<%= book.id %>"
+    method="POST"
+    class="book__delete-form"
+  >
+    <button type="submit" class="book__delete-bttn">Delete</button>
+  </form>
 </div>
 <section class="notes" id="notes">
   <div class="notes__heading">
