@@ -1,4 +1,6 @@
-<%- include("partials/header.ejs") %> <% if (book.img) { %>
+<%- include("partials/header.ejs") %>
+<hr class="divisor" />
+<% if (book.img) { %>
 <img src="<%= book.img %>" alt="book cover" class="book__book-cover" />
 <% } else {%>
 <img
