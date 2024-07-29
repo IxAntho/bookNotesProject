@@ -1,5 +1,14 @@
 <%- include("partials/header.ejs") %>
 <hr class="divisor" />
+<!-- Sort by button goes here -->
+<form action="/" method="GET" class="sort-form">
+  <label for="sort-select">Sort by:</label>
+  <select name="sortBy" id="sort-select" onchange="this.form.submit()">
+    <option value="title" <%= sortBy === 'title' ? 'selected' : '' %>>Title</option>
+    <option value="rating" <%= sortBy === 'rating' ? 'selected' : '' %>>Rating</option>
+    <option value="date_read" <%= sortBy === 'date_read' ? 'selected' : '' %>>Date Read</option>
+  </select>
+</form>
 <section class="allbooks" id="allbooks">
   <a href="/addbook" class="allbooks__add-bttn">Add Book</a>
   <!-- For loop -->

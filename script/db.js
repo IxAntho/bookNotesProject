@@ -14,13 +14,13 @@ const db = new pg.Client({
 
 db.connect();
 
-export const getAllBooks = async () => {
+export const getAllBooksSortedBy = async (sortField) => {
   try {
-    const query = "SELECT * FROM books ORDER BY id ASC";
+    const query = `SELECT * FROM books ORDER BY ${sortField}`;
     const result = await db.query(query);
     return result.rows;
   } catch (error) {
-    console.error("Error in getAllBooks:", error);
+    console.error("Error in getAllBooksSortedBy:", error);
     throw new Error("Failed to fetch books");
   }
 };

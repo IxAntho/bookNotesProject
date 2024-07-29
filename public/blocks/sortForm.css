@@ -1,0 +1,13 @@
+.sort-form {
+  margin: 20px 0;
+  text-align: right;
+}
+
+.sort-form label {
+  margin-right: 10px;
+}
+
+.sort-form select {
+  padding: 5px;
+  border-radius: 5px;
+}
