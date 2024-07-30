@@ -31,10 +31,22 @@ app.use((req, res, next) => {
 
 app.get("/", async (req, res) => {
   try {
-    const books = await db.getAllBooks();
-    console.log(books);
+    const sortBy = req.query.sortBy || "title"; // Default to 'title' if no sort option is provided
+    let books;
 
-    res.render("index.ejs", { books: books });
+    switch (sortBy) {
+      case "rating":
+        books = await db.getAllBooksSortedBy("rating DESC");
+        break;
+      case "date_read":
+        books = await db.getAllBooksSortedBy("date_read DESC");
+        break;
+      case "title":
+      default:
+        books = await db.getAllBooksSortedBy("title ASC");
+    }
+
+    res.render("index.ejs", { books: books, sortBy: sortBy });
   } catch (error) {
     console.error("Error fetching books:", error);
     res.status(500).send("Error fetching books");
